@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwsxjt.domain.Message">
+
+    <!-- 查询短信记录的结果集 -->
+    <resultMap id="messageAllInfo" type="com.xwsxjt.domain.Message">
+        <id property="id" column="m_id" jdbcType="BIGINT"/>
+        <result property="consumption" column="consumption" jdbcType="DOUBLE"/>
+        <result property="sendMessageTime" column="send_message_time" jdbcType="TIMESTAMP"/>
+        <result property="receiveMessageTime" column="receive_message_time" jdbcType="TIMESTAMP"/>
+        <result property="messageType" column="message_type" jdbcType="BIT"/>
+        <result property="isSendSuccess" column="is_send_success" jdbcType="BOOLEAN"/>
+        <result property="messageContent" column="message_content" jdbcType="VARCHAR"/>
+        <association property="sendCustomer" javaType="com.xwsxjt.domain.Customer">
+            <id property="id" column="sc_id" jdbcType="BIT"/>
+            <result property="name" column="sc_name" jdbcType="VARCHAR"/>
+        </association>
+        <association property="receiveCustomer" javaType="com.xwsxjt.domain.Customer">
+            <id property="id" column="rc_id" jdbcType="BIT"/>
+            <result property="name" column="rc_name" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+    <!--发送者属性列名-->
+    <sql id="sc_params">
+        sc.id sc_id, sc.name sc_name
+    </sql>
+    <!--接收者属性列名-->
+    <sql id="rc_params">
+        rc.id rc_id, rc.name rc_name
+    </sql>
+
+    <!-- 插入短信的sql片段 -->
+    <sql id="m_params">
+        m.id m_id, m.send_customer_id, m.receive_customer_id, m.consumption,m.send_message_time,
+        m.receive_message_time,m.message_type, m.is_send_success, m.message_content
+    </sql>
+
+    <!--插入语句values部分sql片段-->
+    <sql id="m_values">
+        #{sendCustomer.id},#{receiveCustomer.id},#{consumption},#{sendMessageTime},#{receiveMessageTime},#{messageType},
+        #{isSendSuccess},#{messageContent}
+    </sql>
+
+    <!--更新语句的set部分sql片段-->
+    <sql id="update_set">
+        <if test="sendCustomer.id != null">send_customer_id=#{sendCustomer.id},</if>
+        <if test="receiveCustomer.id != null">receive_customer_id=#{receiveCustomer.id},</if>
+        <if test="consumption !=null">consumption=#{consumption},</if>
+        <if test="sendMessageTime!=null">send_message_time=#{sendMessageTime},</if>
+        <if test="receiveMessageTime!=null">receive_message_time=#{receiveMessageTime},</if>
+        <if test="messageType!=null">message_type=#{messageType},</if>
+        <if test="isSendSuccess!=null">is_send_success=#{isSendSuccess},</if>
+        <if test="messageContent!=null">message_content=#{messageContent}</if>
+    </sql>
+
+    <!--添加短信信息记录-->
+    <insert id="saveMessage" parameterType="com.xwsxjt.domain.Message" keyProperty="id" useGeneratedKeys="true">
+        insert into message(send_customer_id, receive_customer_id, consumption,send_message_time,receive_message_time,
+        message_type, is_send_success, message_content) values (<include refid="m_values"/>)
+    </insert>
+
+    <!--根据短信id删除短信信息-->
+    <delete id="deleteMessage" parameterType="java.lang.Long">
+        delete from message where id=#{id}
+    </delete>
+
+    <!--根据用户id和分页获取该用户的短信记录-->
+    <select id="findMessageList" parameterType="java.util.Map" resultMap="messageAllInfo">
+        SELECT <include refid="m_params"/>,<include refid="sc_params"/>,<include refid="rc_params"/> from message m
+        left join customer sc on m.send_customer_id = sc.id
+        left join customer rc on m.receive_customer_id = rc.id
+        where m.send_customer_id = #{customerId} or m.receive_customer_id = #{customerId}
+        limit #{pageNowCounts},#{pageSize}
+    </select>
+</mapper>

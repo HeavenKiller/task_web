@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div style="margin: 2em auto;  text-align: center;">
+    <div class="header-title" style="text-align: center;"><h3>套餐信息</h3></div>
+    <div class="header-table" style="margin-top: 20px;">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>套餐名称</th>
+                <th>购买日期</th>
+                <th>执行时间</th>
+                <th>支付金额</th>
+                <th>是否购买成功</th>
+                <th>删除</th>
+            </tr>
+            </thead>
+            <tbody class="showTBody">
+            <tr data-ng-repeat="item in packPurInfoList">
+                <td>{{item.packageInformation.mealName}}</td>
+                <td>{{item.buyTime}}</td>
+                <td>{{item.effectTime}}</td>
+                <td>{{item.amountOfPayment}}</td>
+                <td>
+                    <span data-ng-if="item.isSuccess">
+                        是
+                    </span>
+                    <span data-ng-if="!item.isSuccess">
+                        否
+                    </span>
+                </td>
+                <td><button type="button" data-ng-click="deletePackPurInfo(item.id,pageNow)">删除</button></td>
+            </tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+        <ul class="pagination">
+            <li data-ng-click="previous()"><span>上一页</span></li>
+            <li data-ng-repeat="page in pageList" data-ng-class="{active:isActivePage(page)}">
+                <a data-ng-click="selectPage(page)">
+                    {{page}}
+                </a>
+            </li>
+            <li><a data-ng-click="next()"><span>下一页</span></a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

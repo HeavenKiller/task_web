@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xwsxjt.domain.Customer">
+    <!--定义customer结果集-->
+    <resultMap id="customerAllInfo" type="com.xwsxjt.domain.Customer">
+        <id property="id" column="cu_id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="phoneCode" column="phone_code" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="BIT"/>
+        <result property="idCard" column="id_card" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="balance" column="balance" jdbcType="DOUBLE"/>
+        <result property="isShutdown" column="is_shutdown" jdbcType="BOOLEAN"/>
+        <result property="isStopArrears" column="is_stop_arrears" jdbcType="BOOLEAN"/>
+        <result property="starStates" column="star_states" jdbcType="BIT"/>
+        <association property="packageInformation" javaType="com.xwsxjt.domain.PackageInformation">
+            <id property="id" column="pi_id" jdbcType="BIGINT"/>
+            <result property="mealNumber" column="meal_number" jdbcType="VARCHAR"/>
+            <result property="mealName" column="meal_name" jdbcType="VARCHAR"/>
+            <result property="mealDescribe" column="meal_describe" jdbcType="VARCHAR"/>
+            <result property="messageNumber" column="message_number" jdbcType="INTEGER"/>
+            <result property="minuteNumber" column="minute_number" jdbcType="INTEGER"/>
+            <result property="flowNumber" column="flow_number" jdbcType="DOUBLE"/>
+            <result property="isCall" column="is_call" jdbcType="BOOLEAN"/>
+            <result property="isColorBack" column="is_color_back" jdbcType="BOOLEAN"/>
+            <result property="monthlyRent" column="monthly_rent" jdbcType="DOUBLE"/>
+            <result property="unit" column="unit" jdbcType="BIT"/>
+            <result property="mealStartDate" column="meal_start_date" jdbcType="DATE"/>
+            <result property="mealEndDate" column="meal_end_date" jdbcType="DATE"/>
+        </association>
+    </resultMap>
+    <!--定义customer列名-->
+    <sql id="c_params">
+        cu.id cu_id,cu.`name`,cu.phone_code,cu.sex,id_card,cu.address,cu.balance,cu.is_shutdown,cu.is_stop_arrears,cu.star_states
+    </sql>
+    <!--定义package_information列名-->
+    <sql id="pi_params">
+        pi.id pi_id,pi.meal_number,pi.meal_name,pi.meal_describe,pi.message_number,pi.minute_number,pi.flow_number,
+        pi.is_call,pi.is_color_back,pi.monthly_rent,pi.unit,pi.meal_start_date,pi.meal_end_date
+    </sql>
+    <!--定义customer部分列名-->
+    <sql id="c_part_params">
+         cu.id cu_id,cu.`name`,cu.phone_code,cu.balance,cu.is_stop_arrears
+    </sql>
+    <!--定义package_information部分列名-->
+    <sql id="pi_part_params">
+        pi.id pi_id,pi.meal_name
+    </sql>
+    <!--通过电话号码或ID获得客户和套餐部分信息-->
+    <select id="getCustomer" parameterType="java.util.Map" resultMap="customerAllInfo">
+        SELECT <include refid="c_part_params"/>,<include refid="pi_part_params"/> FROM customer cu
+        left join package_information pi on pi.id = cu.package_information_id
+        <where>
+            <if test="phoneCode != null">
+                cu.phone_code = #{phoneCode}
+            </if>
+            <if test="id != null">
+                cu.id = #{id}
+            </if>
+        </where>
+    </select>
+    <!--获得客户好友集合-->
+    <select id="getCustomerList" parameterType="java.lang.String" resultMap="customerAllInfo">
+        SELECT <include refid="c_part_params"/> FROM customer cu where cu.phone_code != 'admin' and cu.phone_code != #{phoneCode}
+    </select>
+    <!--通过电话号码或ID获得客户和套餐所有信息-->
+    <select id="getCustomerAllInfo" parameterType="java.util.Map" resultMap="customerAllInfo">
+        SELECT <include refid="c_params"/>,<include refid="pi_params"/> FROM customer cu
+        left join package_information pi on pi.id = cu.package_information_id
+        <where>
+            <if test="phoneCode != null">
+                cu.phone_code = #{phoneCode}
+            </if>
+            <if test="id != null">
+                cu.id = #{id}
+            </if>
+        </where>
+    </select>
+    <!--添加客户信息-->
+    <insert id="saveCustomer" parameterType="com.xwsxjt.domain.Customer" useGeneratedKeys="true" keyProperty="id">
+        insert into customer(phone_code,`name`,balance) values(#{phoneCode}, #{name}, #{balance})
+    </insert>
+    <!--更新客户信息-->
+    <update id="updateCustomer" parameterType="com.xwsxjt.domain.Customer">
+        update customer
+        <set>
+              <if test="name!=null">name=#{name},</if>
+              <if test="phoneCode!=null">phone_code=#{phoneCode},</if>
+              <if test="sex!=null">sex=#{sex},</if>
+              <if test="idCard!=null">idCard=#{idCard},</if>
+              <if test="address!=null">address=#{address},</if>
+              <if test="balance!=null">balance=#{balance},</if>
+              <if test="packageInformation.id!=null">package_information_id=#{packageInformation.id},</if>
+              <if test="isShutdown!=null">is_shutdown=#{isShutdown},</if>
+              <if test="isStopArrears!=null">is_stop_arrears=#{isStopArrears},</if>
+              <if test="starStates!=null">star_states=#{starStates}</if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div style="margin: 2em auto;  text-align: center;">
+    <div class="header-title" style="text-align: center;"><h3>添加套餐信息</h3></div>
+    <div style="margin:2em auto; width: 50%;">
+        <form class="packInfoModalForm" method="post" enctype="multipart/form-data">
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">套餐编号</span>
+                <input type="text" data-ng-model="packInfoVo.mealNumber" class="form-control">
+            </div>
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">套餐名称</span>
+                <input type="text" data-ng-model="packInfoVo.mealName" class="form-control">
+            </div>
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">图片</span>
+                <input type="file" data-file-model="myFile" class="form-control"/>
+                <!--<input type="file" data-ng-model="packInfoVo.packInfoImage" class="form-control">-->
+            </div>
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">月租</span>
+                <input type="text" data-ng-model="packInfoVo.monthlyRent" class="form-control">
+            </div>
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">分钟数</span>
+                <input type="text" data-ng-model="packInfoVo.minuteNumber" class="form-control">
+            </div>
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">短信数</span>
+                <input type="text" data-ng-model="packInfoVo.messageNumber" class="form-control">
+            </div>
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">流量</span>
+                <input type="text" data-ng-model="packInfoVo.flowNumber" class="form-control">
+            </div>
+
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">流量单位</span>
+                <div class="dropdown">
+                    <select data-ng-model="packInfoVo.unit" class="form-control">
+                        <option value="1">KB</option>
+                        <option value="2">MB</option>
+                        <option value="3">GB</option>
+                        <option value="4">TB</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">是否彩铃</span>
+                <div class="dropdown">
+                    <select data-ng-model="packInfoVo.isColorBack" class="form-control">
+                        <option value="false">否</option>
+                        <option value="true">是</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">来电提醒</span>
+                <div class="dropdown">
+                    <select data-ng-model="packInfoVo.isCall" class="form-control">
+                        <option value="false">否</option>
+                        <option value="true">是</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">开始时间</span>
+                <input type="text" data-ng-model="packInfoVo.mealStartDate" class="form-control dateControl" onfocus="this.blur()">
+            </div>
+
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">结束时间</span>
+                <input type="text" data-ng-model="packInfoVo.mealEndDate" class="form-control dateControl" onfocus="this.blur()">
+            </div>
+
+            <div class="input-group col-md-6">
+                <span class="input-group-addon">套餐描述</span>
+                <textarea  data-ng-model="packInfoVo.mealDescribe" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-default" data-ng-click="addPackInfo()">添加</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

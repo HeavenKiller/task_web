@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwsxjt.domain.PackPurInformation">
+    <resultMap id="packPurInfo" type="com.xwsxjt.domain.PackPurInformation">
+        <!-- 设置根据用户id查询该用户的套餐购买记录的映射关系 -->
+        <id property="id" column="ppi_id" jdbcType="BIGINT"/>
+        <result property="amountOfPayment" column="amount_of_payment"/>
+        <result property="isSuccess" column="is_success"/>
+        <result property="buyTime" column="buy_time"/>
+        <result property="effectTime" column="effect_time"/>
+        <association property="packageInformation" column="package_information_id" javaType="com.xwsxjt.domain.PackageInformation">
+            <id property="id" column="pi_id" jdbcType="BIGINT"/>
+            <!--<result property="mealNumber" column="MEAL_NUMBER"/>-->
+            <result property="mealName" column="MEAL_NAME"/>
+            <!--<result property="mealDescribe" column="MEAL_DESCRIBE"/>-->
+            <!--<result property="messageNumber" column="MESSAGE_NUMBER"/>-->
+            <!--<result property="minuteNumber" column="MINUTE_NUMBER"/>-->
+            <!--<result property="flowNumber" column="FLOW_NUMBER"/>-->
+            <!--<result property="isCall" column="IS_CALL"/>-->
+            <!--<result property="isColorBack" column="IS_COLOR_BACK"/>-->
+            <!--<result property="monthlyRent" column="MONTHlY_RENT"/>-->
+            <!--<result property="unit" column="UNIT"/>-->
+            <!--<result property="mealStartDate" column="MEAL_START_DATE" jdbcType="DATE"/>-->
+            <!--<result property="mealEndDate" column="MEAL_END_DATE" jdbcType="DATE"/>-->
+        </association>
+    </resultMap>
+    <sql id="ppi_params">
+        ppi.id ppi_id,ppi.amount_of_payment,buy_time,effect_time,is_success
+    </sql>
+    <sql id="pi_params">
+        pi.id pi_id, pi.meal_name
+    </sql>
+
+    <insert id="savePackPurInfo" parameterType="com.xwsxjt.domain.PackPurInformation" useGeneratedKeys="true" keyProperty="id">
+        insert into pack_pur_information(buy_time, customer_id,package_information_id, amount_of_payment,
+        is_success,effect_time) values(#{buyTime}, #{customer.id}, #{packageInformation.id}, #{amountOfPayment},
+        #{isSuccess},#{effectTime})
+    </insert>
+
+    <select id="findPackPurInfoList" parameterType="java.util.Map" resultMap="packPurInfo">
+        select <include refid="ppi_params"/>,<include refid="pi_params"/> from pack_pur_information ppi
+        left join package_information pi on ppi.package_information_id = pi.id where ppi.customer_id=#{customerId}
+        limit #{pageNowCounts},#{pageSize}
+    </select>
+
+    <select id="getRowCountForCustomer" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select count(1) from pack_pur_information ppi where ppi.customer_id = #{customerId}
+    </select>
+
+    <delete id="deletePackPurInfo" parameterType="java.util.Map">
+        delete from pack_pur_information where id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwsxjt.domain.PackageInformation">
+    <resultMap id="packageInformationAllInfo" type="com.xwsxjt.domain.PackageInformation">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="mealNumber" column="meal_number" jdbcType="VARCHAR"/>
+        <result property="mealName" column="meal_name" jdbcType="VARCHAR"/>
+        <result property="mealDescribe" column="meal_describe" jdbcType="VARCHAR"/>
+        <result property="messageNumber" column="message_number" jdbcType="INTEGER"/>
+        <result property="minuteNumber" column="minute_number" jdbcType="INTEGER"/>
+        <result property="flowNumber" column="flow_number" jdbcType="DOUBLE"/>
+        <result property="isCall" column="is_call" jdbcType="BOOLEAN"/>
+        <result property="isColorBack" column="is_color_back" jdbcType="BOOLEAN"/>
+        <result property="monthlyRent" column="monthly_rent" jdbcType="DOUBLE"/>
+        <result property="unit" column="unit" jdbcType="BIT"/>
+        <result property="mealStartDate" column="meal_start_date" jdbcType="DATE"/>
+        <result property="mealEndDate" column="meal_end_date" jdbcType="DATE"/>
+    </resultMap>
+    <!--packageInformation part params-->
+    <sql id="pi_part_params">
+        id,meal_number,meal_name,meal_describe,monthly_rent,meal_start_date,meal_end_date
+    </sql>
+    <sql id="pi_params">
+        id,meal_number,meal_name,meal_describe,message_number,minute_number,flow_number,is_call,is_color_back,monthly_rent,unit,meal_start_date,meal_end_date
+    </sql>
+
+    <select id="getPackageInformationList" parameterType="com.xwsxjt.base.domain.Page" resultMap="packageInformationAllInfo">
+        select <include refid="pi_part_params"/> from package_information limit #{pageNowCounts},#{pageSize}
+    </select>
+
+    <select id="getPackInfo" parameterType="java.util.Map" resultMap="packageInformationAllInfo">
+        SELECT <include refid="pi_part_params"/> FROM package_information
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="getPackInfoAllInfo" parameterType="java.util.Map" resultMap="packageInformationAllInfo">
+        SELECT <include refid="pi_params"/> FROM package_information
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="getRowCount" resultType="java.lang.Integer">
+        select count(1) from package_information
+    </select>
+</mapper>

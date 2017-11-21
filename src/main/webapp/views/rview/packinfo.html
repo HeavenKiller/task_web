@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div style="margin: 2em auto;  text-align: center;">
+    <div class="header-title" style="text-align: center;"><h3>套餐信息</h3></div>
+    <div class="header-table" style="margin-top: 20px;">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th data-ng-hide="isAdmin">套餐编号</th>
+                <th>套餐名称</th>
+                <th>套餐描述</th>
+                <th>月租($)</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>图片</th>
+                <th data-ng-hide="isAdmin">删除</th>
+                <th data-ng-hide="isCustomer">购买</th>
+            </tr>
+            </thead>
+            <tbody class="showTBody">
+                <tr data-ng-repeat="item in packInfoList" data-ng-dblclick="findPackInfo(item.id)">
+                    <td data-ng-hide="isAdmin">{{item.mealNumber}}</td>
+                    <td>{{item.mealName}}</td>
+                    <td title="{{item.mealDescribe}}">{{item.mealDescribe | limitTo:20}}...</td>
+                    <td>{{item.monthlyRent | number:2}}</td>
+                    <td>{{item.mealStartDate}}</td>
+                    <td>{{item.mealEndDate}}</td>
+                    <td>
+                        <ul>
+                            <li  data-ng-repeat="(x,y) in packInfoImage" data-ng-if="x==item.id">
+                                <ul>
+                                    <li data-ng-repeat="image in y">
+                                        <img style="width: 30px;height: 30px;" src="/taskweb/{{image.fileInfo.filePath}}" />
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </td>
+                    <td data-ng-hide="isAdmin"><button type="button" data-ng-click="deletePackInfo(item.id)">删除</button></td>
+                    <td data-ng-hide="isCustomer"><button type="button" data-ng-click="buyPackInfo(item.id)">购买</button></td>
+                </tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+        <ul class="pagination">
+            <li data-ng-click="previous()"><span>上一页</span></li>
+            <li data-ng-repeat="page in pageList" data-ng-class="{active:isActivePage(page)}">
+                <a data-ng-click="selectPage(page)">
+                    {{page}}
+                </a>
+            </li>
+            <li><a data-ng-click="next()"><span>下一页</span></a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

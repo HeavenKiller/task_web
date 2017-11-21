@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div style="margin: 2em auto;  text-align: center;">
+    <div class="header-title" style="text-align: center;"><h3>个人信息</h3></div>
+    <div style="margin:2em auto; width: 50%;">
+        <div class="input-group col-md-12">
+            <span class="input-group-addon">用户名</span>
+            <span id="name" class="form-control">{{customer.name}}</span>
+        </div>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon">电话号码</span>
+            <span id="phoneCode" class="form-control">{{customer.phoneCode}}</span>
+        </div>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon">账户余额</span>
+            <span id="balance" class="form-control">{{customer.balance}}</span>
+        </div>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon">正在使用的套餐</span>
+            <span id="packageInformationId" class="form-control">{{customer.packageInformation.mealName}}</span>
+        </div>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon">身份证号</span>
+            <span id="idCard" class="form-control">{{customer.idCard}}</span>
+        </div>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon">家庭住址</span>
+            <span id="address" class="form-control">{{customer.address}}</span>
+        </div>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon">是否停机</span>
+            <span id="isShutdown" class="form-control">{{customer.isShutdown | isTrue}}</span>
+        </div>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon">是否欠费</span>
+            <span id="isStopArrears" class="form-control">{{customer.isStopArrears | isTrue}}</span>
+        </div>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon">用户星级</span>
+            <span id="starStates" class="form-control">{{customer.starStates}}</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

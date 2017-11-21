@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html data-ng-app="demoApp">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link href="/taskweb/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/taskweb/css/base.css" rel="stylesheet">
+    <style>
+        /**
+         * 去除navbar中margin-bottom:20px; 解决导航栏和正文div之间有段空白的问题
+         */
+        .navbar{
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!--导航栏-->
+<header data-ng-controller="indexController">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" data-ui-sref="default">首页</a>
+            </div>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a data-ui-sref="packinfo">套餐信息</a></li>
+                <li><a data-ui-sref="addpackinfo">添加套餐</a></li>
+                <li data-ng-hide="isCustomer"><a data-ui-sref="packpurinfo">套餐购买记录</a></li>
+                <li data-ng-hide="isCustomer"><a data-ui-sref="telinfo">通话记录</a></li>
+                <li data-ng-hide="isCustomer"><a data-ui-sref="message">短信记录</a></li>
+                <li data-ng-hide="isCustomer"><a data-ui-sref="operator">操作</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li data-ng-hide="isNotLogin"><a data-ui-sref="register"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                <li data-ng-hide="isNotLogin"><a data-ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+                <li data-ng-hide="isLogin" class="dropdown" style="width: 150px;">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{phoneCode}}
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu" style="min-width:150px;">
+                        <li><a data-ui-sref="customerinfo">个人信息</a></li>
+                        <li><a href="#" data-ng-click="customerExit()">退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<!--内容-->
+<div data-ui-view="contain"></div>
+
+<!--页尾-->
+<footer style="text-align: center;">
+    <hr>
+    结尾
+</footer>
+
+
+<script src="/taskweb/js/angular/angular.js"></script>
+<script src="/taskweb/js/angular/angular-cookies.js"></script>
+<script src="https://cdn.bootcss.com/angular-ui-router/1.0.3/angular-ui-router.js"></script>
+<script src="/taskweb/js/other/jquery.min.js"></script>
+<script src="/taskweb/js/other/bootstrap.min.js"></script>
+<script src="/taskweb/js/application/demo-app.js"></script>
+<script src="/taskweb/js/filter/commonFilter.js"></script>
+<script src="/taskweb/js/service/baseService.js"></script>
+<script src="/taskweb/js/service/customerService.js"></script>
+<script src="/taskweb/js/controller/controller.js"></script>
+<script src="/taskweb/js/directive/uploadDirective.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="header" style="width:100%; margin-top: 10px;">
+    <div class="header-title" style="text-align: center;"><h3>通话记录</h3></div>
+    <div class="header-table" style="margin-top: 20px;">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>通信状态</th>
+                <th>拨打/接听用户</th>
+                <th>电话号码</th>
+                <th>通话时长</th>
+                <th>通话费用(￥)</th>
+                <th>开始时间</th>
+                <th>通话类型</th>
+                <th>删除</th>
+            </tr>
+            </thead>
+            <tbody class="showTBody">
+                <tr data-ng-repeat="telInfo in telInfoList">
+                    <!--<%--如果通话记录是拨打，且拨打客户等于当前客户，则表示拨打--%>-->
+                    <td>
+                        <span style="color: green;" data-ng-if="telInfo.dialType && telInfo.isCallSuccess" class="glyphicon glyphicon-arrow-down"></span>
+                        <span style="color: red;" data-ng-if="telInfo.dialType && !telInfo.isCallSuccess" class="glyphicon glyphicon-arrow-down"></span>
+                        <span style="color: green;" data-ng-if="!telInfo.dialType && telInfo.isCallSuccess" class="glyphicon glyphicon-arrow-up"></span>
+                        <span style="color: red;" data-ng-if="!telInfo.dialType && !telInfo.isCallSuccess" class="glyphicon glyphicon-arrow-up"></span>
+                    </td>
+
+                    <td data-ng-if="telInfo.dialType">{{telInfo.answerCustomer.name}}</td>
+                    <td data-ng-if="!telInfo.dialType">{{telInfo.dialCustomer.name}}</td>
+                    <td data-ng-if="telInfo.dialType">{{telInfo.answerCustomer.phoneCode}}</td>
+                    <td data-ng-if="!telInfo.dialType">{{telInfo.dialCustomer.phoneCode}}</td>
+                    <td>{{telInfo.conversationTime | translateDate}}</td>
+                    <td>{{telInfo.callConsumption}}</td>
+                    <td>{{telInfo.callBeginTime}}</td>
+                    <td>{{telInfo.callType | translateCallType}}</td>
+                    <td><button type="button" data-ng-click='deleteTelInfo(telInfo.id)'>删除</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xwsxjt.domain.FileInfo">
+    <!--定义文件信息结果集-->
+    <resultMap id="fileInfo" type="com.xwsxjt.domain.FileInfo">
+        <id property="id" column="fi_id" jdbcType="BIGINT"/>
+        <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+        <result property="filePath" column="file_path" jdbcType="VARCHAR"/>
+        <result property="fileType" column="file_type" jdbcType="VARCHAR"/>
+        <result property="fileSize" column="file_size" jdbcType="BIGINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--定义file_info列名-->
+    <sql id="fi_params">
+        fi.id fi_id,fi.file_name,fi.file_path,fi.file_type,fi.file_size,fi.create_time
+    </sql>
+    <!--通过文件ID获得文件信息-->
+    <select id="getFileInfo" parameterType="java.lang.Long" resultMap="fileInfo">
+        SELECT <include refid="fi_params"/> FROM file_info fi where id = #{id}
+    </select>
+</mapper>

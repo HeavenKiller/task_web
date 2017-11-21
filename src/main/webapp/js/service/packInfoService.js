@@ -1,0 +1,1 @@
+demoApp.factory('packInfoFactory', function(){});

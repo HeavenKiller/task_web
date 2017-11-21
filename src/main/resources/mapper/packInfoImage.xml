@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xwsxjt.domain.PackInfoImage">
+    <resultMap id="packInfoImage" type="com.xwsxjt.domain.PackInfoImage">
+        <id property="id" column="pii_id" jdbcType="BIGINT"/>
+        <association property="packageInformation" javaType="com.xwsxjt.domain.PackageInformation">
+            <id property="id" column="pi_id" jdbcType="BIGINT"/>
+        </association>
+        <association property="fileInfo" javaType="com.xwsxjt.domain.FileInfo">
+            <id property="id" column="fi_id" jdbcType="BIGINT"/>
+            <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+            <result property="filePath" column="file_path" jdbcType="VARCHAR"/>
+            <result property="fileType" column="file_type" jdbcType="VARCHAR"/>
+            <result property="fileSize" column="file_size" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        </association>
+    </resultMap>
+    <sql id="pii_params">
+        pii.id pii_id,pii.package_information_id pi_id
+    </sql>
+    <sql id="fi_params">
+        fi.id fi_id,fi.file_name,fi.file_path,fi.file_type,fi.file_size,fi.create_time
+    </sql>
+
+    <select id="getPackInfoImage" parameterType="java.lang.Long" resultMap="packInfoImage">
+        SELECT <include refid="pii_params"/>,<include refid="fi_params"/> FROM pack_info_image pii
+        left join file_info fi on fi.id = pii.file_info_id where pii.package_information_id = #{packInfoId}
+    </select>
+</mapper>

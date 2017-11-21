@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="header" style="width:100%; margin-top: 10px;">
+    <div class="header-title" style="text-align: center;"><h3>短信记录</h3></div>
+    <div class="header-table" style="margin-top: 20px;">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>发送者</th>
+                <th>接收者</th>
+                <th>时间</th>
+                <th>内容</th>
+                <th>费用(￥)</th>
+                <th>短信类型</th>
+                <th>是否成功</th>
+                <th>删除</th>
+            </tr>
+            </thead>
+            <tbody class="showTBody">
+            <tr data-ng-repeat="message in messageList">
+                <td>{{message.sendCustomer.name}}</td>
+                <td>{{message.receiveCustomer.name}}</td>
+                <td>{{message.sendMessageTime}}</td>
+                <td title="{{message.messageContent}}">{{message.messageContent | limitTo:20}}...</td>
+                <td>{{message.consumption}}</td>
+                <td>{{message.messageType | translateMessageType}}</td>
+                <td>{{message.isSendSuccess | isTrue}}</td>
+                <td><button type="button" data-ng-click='deleteMessage(message.id)'>删除</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

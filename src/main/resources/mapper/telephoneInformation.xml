@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwsxjt.domain.TelephoneInformation">
+    <!-- resultMap 设置 -->
+    <resultMap id="telInfo" type="com.xwsxjt.domain.TelephoneInformation">
+        <id property="id" column="ti_id" jdbcType="BIGINT"/>
+        <result property="conversationTime" column="conversation_time" jdbcType="BIGINT"/>
+        <result property="callConsumption" column="call_consumption" jdbcType="DOUBLE"/>
+        <result property="callBeginTime" column="call_begin_time" jdbcType="TIMESTAMP"/>
+        <result property="callEndTime" column="call_end_time" jdbcType="TIMESTAMP"/>
+        <result property="callType" column="call_type" jdbcType="BIT"/>
+        <result property="isCallSuccess" column="is_call_success" jdbcType="BOOLEAN"/>
+        <result property="dialType" column="dial_type" jdbcType="BIT"/>
+        <association property="dialCustomer" javaType="com.xwsxjt.domain.Customer">
+            <id property="id" column="d_cu_id" jdbcType="BIGINT"/>
+            <result property="name" column="d_cu_name" jdbcType="VARCHAR"/>
+            <result property="phoneCode" column="d_cu_phone_code" jdbcType="VARCHAR"/>
+        </association>
+        <association property="answerCustomer" javaType="com.xwsxjt.domain.Customer">
+            <id property="id" column="a_cu_id" jdbcType="BIGINT"/>
+            <result property="name" column="a_cu_name" jdbcType="VARCHAR"/>
+            <result property="phoneCode" column="a_cu_phone_code" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+    <sql id="d_cu_params">
+        d_cu.id d_cu_id, d_cu.name d_cu_name, d_cu.phone_code d_cu_phone_code
+    </sql>
+    <sql id="a_cu_params">
+        a_cu.id a_cu_id, a_cu.name a_cu_name, a_cu.phone_code a_cu_phone_code
+    </sql>
+    <sql id="ti_params">
+        ti.id ti_id, ti.dial_customer_id, ti.answer_customer_id, ti.conversation_time,ti.call_consumption, ti.call_begin_time,
+        ti.call_end_time, ti.call_type, ti.is_call_success, ti.dial_type
+    </sql>
+
+    <insert id="saveTelInfo" keyProperty="id" useGeneratedKeys="true" parameterType="com.xwsxjt.domain.TelephoneInformation">
+        insert into telephone_information (dial_customer_id, answer_customer_id, conversation_time,
+        call_consumption, call_begin_time,call_end_time, call_type, is_call_success, dial_type)
+        values (#{dialCustomer.id}, #{answerCustomer.id}, #{conversationTime}, #{callConsumption}, #{callBeginTime}, #{callEndTime},
+        #{callType}, #{isCallSuccess}, #{dialType})
+    </insert>
+
+    <update id="updateTelInfo" parameterType="com.xwsxjt.domain.TelephoneInformation">
+        UPDATE telephone_information
+        <set>
+            <if test="dialCustomer.id!=null">dial_customer_id=#{dialCustomer.id},</if>
+            <if test="answerCustomer.id!=null">answer_customer_id=#{answerCustomer.id},</if>
+            <if test="conversationTime!=null">conversation_time=#{conversationTime},</if>
+            <if test="callConsumption!=null">call_consumption=#{callConsumption},</if>
+            <if test="callBeginTime!=null">call_begin_time=#{callBeginTime},</if>
+            <if test="callEndTime!=null">call_end_time=#{callEndTime},</if>
+            <if test="callType!=null">call_type=#{callType},</if>
+            <if test="isCallSuccess!=null">is_call_success=#{isCallSuccess},</if>
+            <if test="dialType!=null">dial_type=#{dialType}</if>
+        </set>
+        WHERE ID=#{id}
+    </update>
+
+    <delete id="deleteTelInfo" parameterType="java.lang.Long">
+        DELETE FROM telephone_information WHERE id=#{id}
+    </delete>
+
+    <select id="findTelInfoList" parameterType="java.util.Map" resultMap="telInfo">
+        SELECT <include refid="ti_params"/>,<include refid="d_cu_params"/>,<include refid="a_cu_params"/>
+        from telephone_information ti
+        left join customer a_cu on ti.answer_customer_id = a_cu.id
+        left join customer d_cu on ti.dial_customer_id = d_cu.id
+        where (ti.dial_customer_id = #{customerId} and ti.dial_type = 1) or (ti.answer_customer_id = #{customerId} and ti.dial_type = 0)
+        order by ti.call_begin_time desc
+        limit #{pageNowCounts},#{pageSize}
+    </select>
+</mapper>
