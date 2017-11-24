@@ -1,6 +1,6 @@
 demoApp.controller('indexController', function($scope, $cookies, customerFactory){
     $scope.customerExit = function(){
-        var url = '/taskweb/views/index.html';
+        var url = '../views/index.html';
         customerFactory.exit(url);
     }
 });

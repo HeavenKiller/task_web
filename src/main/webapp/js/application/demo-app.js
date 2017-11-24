@@ -28,7 +28,7 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
         views : {
             'contain' : {
                 controller : 'defaultController',
-                templateUrl : '/taskweb/views/rview/default.html'
+                templateUrl : '../views/rview/default.html'
             }
         }
     }).state('login', {
@@ -36,14 +36,14 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
         views : {
             'contain' : {
                 controller : 'loginController',
-                templateUrl : '/taskweb/views/rview/login.html'
+                templateUrl : '../views/rview/login.html'
             }
         }
     }).state('register', {
         url : '/register',
         views : {
             'contain' : {
-                templateUrl : '/taskweb/views/rview/register.html'
+                templateUrl : '../views/rview/register.html'
             }
         }
     }).state('customerinfo', {
@@ -51,7 +51,7 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
         views : {
             'contain' : {
                 controller : 'customerInfoController',
-                templateUrl : '/taskweb/views/rview/customerinfo.html'
+                templateUrl : '../views/rview/customerinfo.html'
             }
         }
     }).state('packinfo', {
@@ -59,7 +59,7 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
         views : {
             'contain' : {
                 controller : 'packInfoController',
-                templateUrl : '/taskweb/views/rview/packinfo.html'
+                templateUrl : '../views/rview/packinfo.html'
             }
         }
     }).state('packpurinfo', {
@@ -67,7 +67,7 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
         views : {
             'contain' : {
                 controller : 'packPurInfoController',
-                templateUrl : '/taskweb/views/rview/packpurinfo.html'
+                templateUrl : '../views/rview/packpurinfo.html'
             }
         }
     }).state('operator', {
@@ -75,7 +75,7 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
         views : {
             'contain' : {
                 controller : 'operatorController',
-                templateUrl : '/taskweb/views/rview/operator.html'
+                templateUrl : '../views/rview/operator.html'
             }
         }
     }).state('telinfo', {
@@ -83,7 +83,7 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
         views : {
             'contain' : {
                 controller : 'telInfoController',
-                templateUrl : '/taskweb/views/rview/telinfo.html'
+                templateUrl : '../views/rview/telinfo.html'
             }
         }
     }).state('message', {
@@ -91,7 +91,7 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
         views : {
             'contain' : {
                 controller : 'messageController',
-                templateUrl : '/taskweb/views/rview/message.html'
+                templateUrl : '../views/rview/message.html'
             }
         }
     }).state('addpackinfo', {
@@ -99,7 +99,7 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
         views : {
             'contain' : {
                 controller : 'addPackInfoController',
-                templateUrl : '/taskweb/views/rview/addpackinfo.html'
+                templateUrl : '../views/rview/addpackinfo.html'
             }
         }
     }).state('packinfoone', {
@@ -108,7 +108,7 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
         views : {
             'contain' : {
                 controller : 'packInfoOneController',
-                templateUrl : '/taskweb/views/rview/packinfoone.html'
+                templateUrl : '../views/rview/packinfoone.html'
             }
         }
     });
