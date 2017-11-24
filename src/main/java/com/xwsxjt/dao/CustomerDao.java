@@ -45,6 +45,9 @@ public interface CustomerDao {
      * @date 2017-10-25
      * @param customer 客户信息
      * @return long
+     *
+     *
+     * 我就来试试 王振欣到此一游
      */
     public long saveCustomer(Customer customer);
 
