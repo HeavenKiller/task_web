@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * @author xiaoshijie
  * @ClassName CustomerServiceTest
- * @Description 类描述
+ * @Description jedis测试
  * @date 2017/10/20
  */
 
